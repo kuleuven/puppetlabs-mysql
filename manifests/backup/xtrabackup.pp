@@ -35,7 +35,7 @@ class mysql::backup::xtrabackup (
   String[1]                                     $backupmethod_package     = $mysql::params::xtrabackup_package_name,
   Array[String]                                 $excludedatabases = [],
 ) inherits mysql::params {
-  stdlib::ensure_packages($backupmethod_package)
+  ensure_packages($backupmethod_package)
 
   $backuppassword_unsensitive = if $backuppassword =~ Sensitive {
     $backuppassword.unwrap
@@ -110,9 +110,9 @@ class mysql::backup::xtrabackup (
 
   if $install_cron {
     if $facts['os']['family'] == 'RedHat' {
-      stdlib::ensure_packages('cronie')
+      ensure_packages('cronie')
     } elsif $facts['os']['family'] != 'FreeBSD' {
-      stdlib::ensure_packages('cron')
+      ensure_packages('cron')
     }
   }
 
